@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ave mujica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-size:cover ;
+            justify-content: flex-end;
+            background-image:url("./image/海玲漂亮漂亮1.jpg")
+        }
+        #countdown {
+            font-size: 45px;
+            font-weight: bold;
+            color: #fcfbfb;
+            text-shadow: -2px -2px 0 black,  
+        2px -2px 0 black,
+        -2px 2px 0 black, 
+        2px 2px 0 black; /* 四個方向加黑色邊框 */;
+        }
+    </style>
+</head>
+<body>
+        <p id="countdown">計算中...</p>
+</body>
+<script>
+    function updateCountdown() {
+        const now = new Date();
+        const nextThursday = new Date(now);
+
+        let dayOfWeek = now.getDay(); // 取得今天是星期幾 (0=星期日, 1=星期一, ..., 6=星期六)
+        let daysUntilThursday = (4 - dayOfWeek + 7) % 7; // 計算距離下週四的天數
+
+        if (daysUntilThursday === 0 && now.getHours() >= 22) {
+            // 如果今天是星期四但已經過了 22:00，則計算下週四
+            daysUntilThursday = 7;
+        }
+
+        // 設定時間為星期四 22:00:00
+        nextThursday.setDate(now.getDate() + daysUntilThursday);
+        nextThursday.setHours(22, 0, 0, 0);
+
+        // 計算時間差
+        const timeDiff = nextThursday - now;
+
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        // 更新倒數時間
+        document.getElementById("countdown").innerText = 
+            `距離Ave Mujica下一集開播還剩下 ${days} 天 ${hours} 小時 ${minutes} 分鐘 ${seconds} 秒`;
+    }
+
+    // 立即執行一次，然後每秒更新一次
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+</script>
+</html>
